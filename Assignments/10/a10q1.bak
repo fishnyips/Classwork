@@ -1,0 +1,31 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname a10q1) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #t)))
+(define-struct pnode (op arg1 arg2))
+;; A Polynomial Expression Node (PNode) is a
+;; (make-pnode (anyof '+ '- '*) PExp PExp)
+
+;; A Polynomial expression (PExp) is one of:
+;; * A Num
+;; * 'x
+;; * A PNode
+
+(define (eval/x ex val)
+  ...)
+
+(define (poly->exp p)
+  ...)
+
+(define (eval ex)
+  (cond
+    [(number? ex) ex]
+    [else
+     [local
+       [(define arg1-result (eval (binode-arg1 ex)))
+        (define arg2-result (eval (binode-arg2 ex)))
+        (define op (binode-op ex))]
+       (cond
+         [(symbol=? op '+) (+ arg1-result arg2-result)]
+         [(symbol=? op '-) (- arg1-result arg2-result)]
+         [(symbol=? op '*) (* arg1-result arg2-result)]
+         [(symbol=? op '/) (/ arg1-result arg2-result)])]]))

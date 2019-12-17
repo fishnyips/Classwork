@@ -1,0 +1,50 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-reader.ss" "lang")((modname l08q1) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+;; An association (As) is a (list Num Str) where
+;; * the first item is the key
+;; * the second item is the associated value
+
+;; An association list (AL) is one of
+;; * empty
+;; * (cons As AL)
+;; Note: All keys must be distinct
+
+;; =="Selectors"==
+;; (key asso) produces the key of association asso
+;; key: As -> Num
+;; Examples:
+(check-expect (key (list 4 "Hi")) 4)
+
+(define (key asso)
+  (first asso))
+
+;; (value asso) produces the value of association asso
+;; value: As -> Str
+;; Examples:
+(check-expect (value (list 4 "Hi")) "Hi")
+
+(define (value asso)
+  (second asso))
+
+
+;; Along for the ride solution
+;; (extract-values keys assolist) produces the values from assolist whose
+;; keys are in the list keys
+;; extract-values: (listof Num) AL -> (listof Str)
+;; Examples:
+(check-expect (extract-values empty empty) empty)
+(check-expect (extract-values (list 1.5) (list (list 1.5 "a") (list -2 "b")))
+              (list "a"))
+
+(define (extract-values keys assolist)
+  (cond
+    [(or (empty? assolist) (empty? keys))
+     empty]
+    [(member? (key (first assolist)) keys)
+     (cons (value (first assolist))
+           (extract-values keys (rest assolist)))]
+    [else
+     (extract-values keys (rest assolist))]))
+
+

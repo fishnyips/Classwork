@@ -1,0 +1,51 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname a05q1) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+;;
+;; **********************
+;; Zidong Liu (20626047)
+;; CS 115
+;; Assignment 5, Question 1
+;; **********************
+
+(define (max-score scores)
+  (cond
+    ((empty? scores) empty)
+    ((empty? (rest scores)) (first scores))
+    ((> (first scores) (max (first (rest scores)))) (first scores))
+    (else (max-score (rest scores)))))
+
+(define (min-score scores)
+  (cond
+    ((empty? scores) empty)
+    ((empty? (rest scores)) (first scores))
+    ((< (first scores) (min (first (rest scores)))) (first scores))
+    (else (min-score (rest scores)))))
+
+(define (length-scores scores)
+  (cond
+    ((empty? scores) empty)
+    (else (length scores))))
+
+(define (adjusted-list max min scores)
+  (cond
+    ((empty? scores) empty)
+    ((and (> (first scores) min) (< (first scores) max))
+     (cons (first scores) (adjusted-list max min (rest scores))))
+    (else (adjusted-list max min(rest scores)))))
+
+(define (average-adj adjustedlist)
+  (cond
+    ((empty? adjustedlist) empty)
+    ((empty? (rest adjustedlist)) (first adjustedlist))
+    (else (/ (+ (first adjustedlist) (average-adj (rest adjustedlist))) (length adjustedlist)))))
+
+;; TODO: Check what the contract is for a natural number
+
+;;(execution-score) computes an average score for a list of scores,
+;; with the highest and lowest scores dropped
+;; execution-score: (listof Nat) -> Nat
+;; requires: 0 <= scores <= 10
+
+(define (execution-score scores)
+  (average-adj (adjusted-list (max-score scores) (min-score scores) scores)))

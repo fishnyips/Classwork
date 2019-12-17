@@ -1,0 +1,46 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname |Module 2 - Design Recipe|) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #t)))
+;; constraints for phone plan
+;; Free limits
+(define day-free 100)
+(define eve-free 200)
+
+;; Rates per minute
+(define day-rate 1)
+(define eve-rate .5)
+
+;;(cell-bill day eve) produces cell phone bill for day daytime
+;;  minutes and eve evening minutes used
+;; cell-bill: Nat Nat --> Num
+;; Examples:
+(check-expect(cell-bill 101 0) 1)
+(check-expect(cell-bill 99 0) 0)
+(check-expect(cell-bill 0 199) 0)
+(check-expect(cell-bill 0 202) 1)
+(check-expect(cell-bill 150 300) 100)
+
+;; (charges-for minutes freelimit rate) produces charges for minutes,
+;; given the rate per minute past the freelimit.
+;; charges-for: Nat Nat Num --> Num
+;; requires: rate >= 0
+;; Examples:
+(check-expect(charges-for 101 100 5) 5)
+(check-expect(charges-for 99 100 34) 0)
+
+(define(charges-for minutes freelimit rate)
+  (max 0(*(- minutes freelimit)rate)))
+
+;; Tests for charges-for:
+(check-expect(charges-for 100 100 5)0)
+
+(define (cell-bill day eve)
+  (+
+   (charges-for day day-free dayrate)
+   (charges-for eve eve-free everate)))
+
+;; Tests for cell-bill
+(check-expect(cell-bill 100 0)0)
+(check-expect(cell-bill 0 200)0)
+(check-expect(cell-bill 50 175)0)
+(check-expect(cell-bill 100 200)0)

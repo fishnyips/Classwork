@@ -1,0 +1,38 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname a05q2) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+;;
+;; **********************
+;; Zidong Liu (20626047)
+;; CS 115
+;; Assignment 5, Question 2
+;; **********************
+
+;; 48 to 57 are numbers
+(define (convert-los msg)
+  (string->list msg))
+
+(define (convert-num converted)
+  (cond
+    ((empty? converted) empty)
+    ((and (>= (char->integer (first converted)) 48)
+          (<= (char->integer (first converted)) 57))
+     (cons (first converted) (convert-num (rest converted))))))
+
+(define (convert-capital converted)
+  (cond
+    ((empty? converted) empty)
+    ((<= 65 (char->integer (first converted)) 90)
+     (cond
+       ((> (+ (- (char->integer (first converted)) (char->integer #\A)) 13) 25)
+        (cons (integer->char (+ (- (+ (- (char->integer (first converted))
+                                         (char->integer #\A)) 13) 25) 64)) (convert-capital (rest converted))))
+       (else (cons (integer->char (+ (+ (- (char->integer (first converted))
+                                           (char->integer #\A)) 13) 65)) (convert-capital (rest converted))))))))
+
+
+
+
+;;(define (rot-13 msg)
+  ;;(list->string (scramble (convert-los msg))))
+    

@@ -1,0 +1,37 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname a04q2) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+;;
+;; **********************
+;; Zidong Liu (20626047)
+;; CS 115
+;; Assignment 04, Question 2
+;; **********************
+
+;; (keep-multiples-of-three-or) produces a list of Num, that divide evenly by 3
+;; or mult, but not both.
+;; keep-multiples-of-three-or: (listof Int->listof Int)
+
+;; Examples:
+(check-expect(keep-multiples-of-three-or empty 2) empty)
+(check-expect(keep-multiples-of-three-or (cons 3 empty) 3) empty)
+(check-expect(keep-multiples-of-three-or (cons 9 (cons 6 (cons 11 (cons -4
+             (cons 0 empty)))))6)(cons 9 empty))                                                           
+(check-expect(keep-multiples-of-three-or (cons 105 (cons 6 (cons 25 empty)))5)
+             (cons 6 (cons 25 empty)))
+                                                              
+
+(define (keep-multiples-of-three-or loi mult)
+  (cond
+    ((empty? loi) empty)
+    ((equal? (first loi) mult) empty)
+    ((and (or (equal? (remainder (first loi) 3) 0)
+             (equal? (remainder (first loi) mult) 0))
+         (not (equal? (remainder (first loi) (* 3 mult)) 0)))
+         (cons (first loi) (keep-multiples-of-three-or (rest loi) mult)))
+  (else (keep-multiples-of-three-or (rest loi) mult))))
+
+;; Tests:
+(check-expect(keep-multiples-of-three-or empty empty)empty)
+(check-expect(keep-multiples-of-three-or (cons 1 (cons 2 (cons 3 empty)))1)empty)
+(check-expect(keep-multiples-of-three-or (cons 0 empty) 0) empty)

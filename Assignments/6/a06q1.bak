@@ -1,0 +1,7 @@
+(define (approximate-pi n))
+  (calculate-pi 0 n 1)
+
+(define (calculate-pi index end sign))
+  (cond
+     ((greater? index end) 0)
+     (else (+ (* (sub1 (* 2 index)) sign) (calculate-pi (sub1 index) end (* -1 sign)))

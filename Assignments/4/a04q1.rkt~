@@ -1,0 +1,28 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname a04q1) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+;;
+;; **********************
+;; Zidong Liu (20626047)
+;; CS 115
+;; Assignment 04, Question 1
+;; **********************
+
+;; (append-with-separator) produces a string combining all los elements with a sep in between
+;; append-with-separator: (listof Str) -> Str
+
+;; Examples:
+(check-expect(append-with-separator empty " ")"")
+(check-expect(append-with-separator (cons "programming"
+                                    (cons "is" (cons "fun?" empty)))"...")
+             "programming...is...fun?...")
+(check-expect(append-with-separator (cons "Beep" (cons "Boop" (cons "" (cons "Bop" empty)))) ", ")
+             "Beep, Boop, , Bop, ")
+(check-expect(append-with-separator (cons "Hi" (cons "World" empty)) "")
+             "HiWorld")
+
+(define (append-with-separator los sep)
+  (cond
+    ((empty? los) "")
+    ((equal? (length los) 1) (string-append (first los) sep))
+    (else (string-append (string-append (first los) sep) (append-with-separator (rest los) sep)))))

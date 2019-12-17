@@ -1,0 +1,29 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname a06q2) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+(define (compare-country country lis)
+  (cond
+    ((equal? country (second lis)) true)
+    (else false)))
+
+(define (get-country iata lis)
+  (cond
+    ((equal? (first (first lis)) iata) (second (second (first lis))))
+    (else (get-country iata (rest lis)))))
+
+(define (checker country lis)
+  (cond
+    ((empty? lis) empty)
+    ((compare-country country (second (first lis))) (cons (first (first lis)) (checker country (rest lis))))
+    (else (checker country (rest lis)))))
+
+(define (same-country lis iata)
+  (checker (get-country iata lis) lis))
+
+(define alist (list (list "YYZ" (list "Toronto" "Canada"))
+ (list "YWG" (list "Winnipeg" "Canada"))
+ (list "BGO" (list "Bergen" "Norway"))
+ (list "TRF" (list "Sandefjord" "Norway"))
+ (list "YUL" (list "Montreal" "Canada"))
+ (list "LHR" (list "London" "England"))
+ (list "YVR" (list "Vancouver" "Canada")))) 

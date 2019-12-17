@@ -1,0 +1,46 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname a06q3) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+(define (insert-bool lis item action)
+  (cond
+    ((empty? lis) (list "Bool" (list item)))
+    ((not (member? "Bool" (first lis))) (cons (first lis) (insert-bool (rest lis) item action)))
+    ((equal? action "add") (cons (list "Bool" (append (second (first lis)) (list item))) (rest lis)))
+    (else (cons (list "Bool" (remove item (second (first lis)))) (rest lis))))) 
+
+(define (insert-num lis item action)
+  (cond
+    ((empty? lis) (list "Num" (list item)))
+    ((not (member? "Num" (first lis))) (cons (first lis) (insert-num (rest lis) item action)))
+    ((equal? action "add") (cons (list "Num" (append (second (first lis)) (list item))) (rest lis)))
+    (else (cons (list "Num" (remove item (second (first lis)))) (rest lis))))) 
+
+(define (insert-char lis item action)
+  (cond
+    ((empty? lis) (list "Char" (list item)))
+    ((not (member? "Char" (first lis))) (cons (first lis) (insert-char (rest lis) item action)))
+    ((equal? action "add") (cons (list "Char" (append (second (first lis)) (list item))) (rest lis)))
+    (else (cons (list "Char" (remove item (second (first lis)))) (rest lis))))) 
+
+(define (insert-str lis item action)
+  (cond
+    ((empty? lis) (list "Str" (list item)))
+    ((not (member? "Str" (first lis))) (cons (first lis) (insert-str (rest lis) item action)))
+    ((equal? action "add") (cons (list "Str" (append (second (first lis)) (list item))) (rest lis)))
+    (else (cons (list "Str" (remove item (second (first lis)))) (rest lis)))))
+
+(define (update lis info)
+  (update-helper lis (first info) (second info)))
+
+(define (update-helper lis action item)
+  (cond
+    ((char? item) (insert-char lis item action))
+    ((number? item) (insert-num lis item action))
+    ((string? item) (insert-str lis item action))
+    (else (insert-bool lis item action))))
+
+(define start (list (list "Num" (list 5 1.3 -1))
+ (list "Bool" empty)
+ (list "Char" (list #\p))
+ (list "Str"
+ (list "cs" "CS" "Computer Science")))) 

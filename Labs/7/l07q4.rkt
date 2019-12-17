@@ -1,0 +1,21 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-abbr-reader.ss" "lang")((modname l07q4) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #t)))
+;;
+;; **********************
+;; Zidong Liu (20626047)
+;; CS 115
+;; Lab 07, Question 4
+;; **********************
+
+(define (largest-prime bottom top)
+  (cond
+    ((equal? top bottom) false)
+    ((isprime top (- top 1)) top)
+    (else (largest-prime bottom (sub1 top)))))
+
+(define (isprime num count)
+  (cond
+    ((= count 1) true)
+    ((not (equal? (remainder num count) 0)) (and true (isprime num (sub1 count))))
+    (else false)))
