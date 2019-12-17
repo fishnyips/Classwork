@@ -1,0 +1,70 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-reader.ss" "lang")((modname |2019.11.05 - Class Notes|) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+(define (my-map f alist)
+  (cond
+    [(empty? alist) empty]
+    [else (cons (f (first alist)) (my-map f (rest alist)))]))
+
+(define (build-helper k n f)
+  (cond
+    [(= n k) empty]
+    [else (cons (f k) (build-helper (add1 k) n f))]))
+
+;; first-evens: Nat -> (listof Nat)
+(define (my-build-list n f) (build-helper 0 n f))
+
+(define (double x) (* x 2))
+
+;; Start of Class Notes
+
+;;(define (compare a b) (< a b)) ; Only need to change the operator in this case, adds flexibility
+
+;; Functions are values in intermediate student
+
+(define (insert elt lst compare)
+  (cond
+    [(empty? lst) (cons elt empty)]
+    [(compare elt (first lst)) (cons elt lst)]
+    [else (cons (first lst) (insert elt (rest lst) compare))]))
+
+(define (my-sort lst compare)
+  (cond
+    [(empty? lst) empty]
+    [else (insert (first lst) (my-sort (rest lst) compare) compare)]))
+
+(define (not-apple? val) (not (symbol=? val 'apple)))
+
+(define (my-filter alist pred?)
+  (cond
+    [(empty? alist) empty]
+    [(pred? (first alist))
+     (cons (first alist) (my-filter (rest alist) pred?))]
+    [else (my-filter (rest alist) pred?)]))
+
+(define (select-even alist)
+  (cond
+    [(empty? alist) empty]
+    [(even? (first alist))
+     (cons (first alist) (select-even (rest alist)))]
+    [else (select-even (rest alist))]))
+
+(map string-length (list "abc" "adeg" "rewqoiuewq" "dsalkjewq"))
+
+;; concat-first: Str Str -> Str
+;; requires: s is not an empty string
+(define (concat-first s wrd)
+  (cond
+    [(zero? (string-length s)) wrd]
+    [else (string-append (substring s 0 1) wrd)]))
+
+(define (initialism los) (foldr concat-first "" los))
+
+(define (negate-combine a b)
+  (cons (- a) b))
+
+
+(define (negate-list lon) (foldr negate-combine empty lon))
+
+  
+

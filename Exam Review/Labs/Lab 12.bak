@@ -1,0 +1,23 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-intermediate-lambda-reader.ss" "lang")((modname |Lab 12|) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #t)))
+;; Lab 12
+(define some-bst
+  (make-node 15 "Viper"
+             (make-node 7 "Void"
+                        (make-node 1 "Lion" empty empty)
+                        (make-node 4 "Pudge" empty empty))
+             (make-node 21 "zeus"
+                        (make-node 16 "Rubick" empty empty)
+                        (make-node 41 "Huskar" empty empty))))
+           
+
+(define-struct binode (op arg1 arg2))
+(define-struct node (key val left right))
+
+(define (preorder bt)
+  (cond
+    [(empty? bt) empty]
+    [else
+     (node-key bt
+  

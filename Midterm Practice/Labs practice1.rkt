@@ -1,0 +1,42 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-abbr-reader.ss" "lang")((modname |Labs practice1|) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #t)))
+(define (connect? string1 string2)
+  (cond
+    [(equal? (substring string1 (- (string-length string1) 1))
+             (substring string2 0 1)) true]
+    [else false]))
+
+(define (count-even-strings los)
+  (cond
+    [(empty? los) 0]
+    [(even? (string-length (first los)))
+     (+ 1 (count-even-strings (rest los)))]
+    [else (count-even-strings (rest los))]))
+
+(define (longest-string-length los)
+  (cond
+    [(empty? los) 0]
+    [else (max (string-length (first los)) (longest-string-length (rest los)))]))
+
+(define (or-with-lists? lob)
+  (cond
+    [(empty? lob) false]
+    [(equal? (first lob) true) true]
+    [else (or-with-lists? (rest lob))]))
+
+(define (strings-with-prefix los pre)
+  (cond
+    [(empty? los) empty]
+    [(equal? pre (substring (first los) 0 (string-length pre)))
+     (cons (first los) (strings-with-prefix (rest los) pre))]
+    [else (strings-with-prefix (rest los) pre)]))
+
+(define (next-list alist item)
+  (cond
+    [(empty? alist) empty]
+    [(not (equal? (first alist) item))
+     "None"]
+    [(equal? (first alist) item)
+     (first (rest alist))]
+    [else (next-list (rest alist) item)]))
